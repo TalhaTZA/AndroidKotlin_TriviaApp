@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -26,6 +27,18 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupActionBarWithNavController(this, mNavController,mDrawerLayout)
         NavigationUI.setupWithNavController(mBinding.navView,mNavController)
+
+        setNavigationListener()
+    }
+
+    private fun setNavigationListener() {
+        mNavController.addOnNavigatedListener { nc: NavController, nd: NavDestination ->
+            if (nd.id == nc.graph.startDestination) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
