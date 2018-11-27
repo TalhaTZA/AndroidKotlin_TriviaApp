@@ -1,4 +1,3 @@
-
 package com.example.android.navigation
 
 import android.os.Bundle
@@ -15,7 +14,7 @@ import com.example.android.navigation.databinding.FragmentTitleBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mNavController : NavController
+    private lateinit var mNavController: NavController
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,29 +24,32 @@ class MainActivity : AppCompatActivity() {
 
         Init()
 
-        NavigationUI.setupActionBarWithNavController(this, mNavController,mDrawerLayout)
-        NavigationUI.setupWithNavController(mBinding.navView,mNavController)
+        NavigationUI.setupActionBarWithNavController(this, mNavController, mDrawerLayout)
+        NavigationUI.setupWithNavController(mBinding.navView, mNavController)
 
         setNavigationListener()
     }
 
     private fun setNavigationListener() {
-        mNavController.addOnNavigatedListener { nc: NavController, nd: NavDestination ->
-            if (nd.id == nc.graph.startDestination) {
-                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            } else {
-                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-            }
+        mNavController.addOnNavigatedListener (lfun)
+    }
+
+
+    private val lfun: (NavController, NavDestination) -> Unit = { nc, nd ->
+        if (nd.id == nc.graph.startDestination) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        } else {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         Init()
-        return NavigationUI.navigateUp(mDrawerLayout,mNavController)
+        return NavigationUI.navigateUp(mDrawerLayout, mNavController)
     }
 
     private fun Init() {
-        mNavController= this.findNavController(R.id.myNavHostFragment)
+        mNavController = this.findNavController(R.id.myNavHostFragment)
         mDrawerLayout = mBinding.drawerLayout
     }
 
